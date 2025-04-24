@@ -16,12 +16,12 @@ def format_number(number):
     else:
         return f"{number}"
 
-def check_file_exists(keyword):
+def check_file_exists(target):
     """주어진 키워드에 대한 결과 파일이 이미 존재하는지 확인"""
-    filename = f"{directory}/youtube_{keyword}_shorts_{today}.json"
+    filename = f"{directory}/{target}_{today}.json"
     return filename
 
-def save_results(shorts_data, keyword, min_views, max_days):
+def save_results(target, data):
     """검색 결과를 날짜 기반 디렉토리에 저장"""
     
     # 디렉토리가 없으면 생성
@@ -29,11 +29,11 @@ def save_results(shorts_data, keyword, min_views, max_days):
         os.makedirs(directory)
     
     # 파일명 생성
-    filename = f"{directory}/youtube_{keyword}_shorts_{today}.json"
+    filename = f"{directory}/{target}_{today}.json"
     
     # 파일 저장
     with open(filename, "w", encoding="utf-8") as f:
-        json.dump(shorts_data, f, ensure_ascii=False, indent=2)
+        json.dump(data, f, ensure_ascii=False, indent=2)
     
     print(f"✅ 결과가 '{filename}' 파일로 저장되었습니다.")
     return filename

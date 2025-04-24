@@ -17,10 +17,10 @@ def setting():
 
         if not keyword:
             print("키워드를 입력해야 합니다.")
-            return
+            return None
         
-        # 이미 해당 키워드에 대한 결과 파일이 존재하는지 확인
-        filename = check_file_exists(keyword)
+        # # 이미 해당 키워드에 대한 결과 파일이 존재하는지 확인
+        # filename = check_file_exists(f"youtube_{keyword}_shorts")
 
         # if os.path.exists(filename):
         #     print(f"\n✅ '{keyword}' 키워드에 대한 결과가 이미 존재합니다.")
@@ -64,12 +64,9 @@ def setting():
             max_results=max_results
         )
         
-
-
-        
         if not shorts_data:
             print(f"필터 조건을 만족하는 '{keyword}' 관련 쇼츠를 찾을 수 없습니다.")
-            return
+            return None
         
         # 결과 출력
         print(f"\n🔥 인기 '{keyword}' 쇼츠 TOP {len(shorts_data)}")
@@ -87,11 +84,26 @@ def setting():
             print(f"   URL: {short.get('video_url', '')}")
             print("-" * 60)
         
+        # 메타데이터를 포함한 데이터 구성
+        meta_data = {
+            "shorts": shorts_data,
+            "metadata": {
+                "keyword": keyword,
+                "min_views": min_views,
+                "max_days": max_days,
+                "total_items": len(shorts_data)
+            }
+        }
+        
         # 결과 저장
-        filename = save_results(shorts_data, keyword, min_views, max_days)
+        filename = save_results(f"youtube_{keyword}_shorts", meta_data)
         return filename
         
     except KeyboardInterrupt:
         print("\n사용자에 의해 프로그램이 중단되었습니다.")
+        return None
     except Exception as e:
         print(f"오류 발생: {str(e)}")
+        import traceback
+        traceback.print_exc()  # 상세 오류 추적
+        return None
