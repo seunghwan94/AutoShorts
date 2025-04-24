@@ -36,7 +36,8 @@ class LLMProvider:
         self.api_key = api_key or config.LLM_API_KEY
         self.model = model or config.LLM_MODEL
 
-        openai.api_key = self.api_key  # ✅ 전역 설정만 하면 OK
+        # 클라이언트 객체 생성 (최신 OpenAI API 방식)
+        self.client = openai.OpenAI(api_key=self.api_key)
         logger.info(f"LLM 제공자 초기화: 모델={self.model}")
     
     def generate_text(self, prompt: str, max_tokens: int = None, 

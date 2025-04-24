@@ -20,6 +20,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import config
 from story.llm import llm_provider
 from story.prompt import get_story_prompt, get_story_prompt_multi_keywords, get_title_prompt, get_hashtags_prompt
+from common.utils import save_results
 
 # 로깅 설정
 logging.basicConfig(
@@ -221,15 +222,9 @@ class StoryGenerator:
             story_data: 저장할 스토리 데이터
         """
         try:
-            # 날짜 기반 파일명 생성
-            today = datetime.now().strftime("%Y%m%d")
             keyword = story_data["keyword"].replace(", ", "_").replace(" ", "_")[:30]  # 파일명 길이 제한
-            filename = f"{config.OUTPUT_DIR}/story_{keyword}_{today}.json"
-            
-            # JSON 형식으로 저장
-            with open(filename, "w", encoding="utf-8") as f:
-                json.dump(story_data, f, ensure_ascii=False, indent=2)
-                
+            # 결과 저장
+            filename = save_results(f"story_{keyword}", story_data)
             logger.info(f"스토리 데이터 저장 완료: {filename}")
             
         except Exception as e:
