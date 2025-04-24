@@ -1,0 +1,9 @@
+requests==2.31.0
+openai
+urllib3==2.0.7
+python-dotenv==1.0.0
+json5==0.9.14
+tqdm==4.66.1
+tenacity==8.2.3
+certifi==2024.2.2
+typing-extensions==4.8.0
